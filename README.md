@@ -1,6 +1,7 @@
 #afinal交流平台
-* QQ群：192341294
-* 网址：[http://www.afinal.org](http://www.afinal.org)
+* QQ群：192341294（群1，2000未满）    246710918（群2，1000未满）
+##作者个人微信
+![mahua](http://7xi3g2.com1.z0.glb.clouddn.com/grwx.png?imageView2/1/w/250/h/250/q/87)
 
 
 ----
@@ -45,7 +46,32 @@ db.save(user);
 ```
 
 ----
-
+##FinalDB OneToMany懒加载使用方法：
+模型定义：
+```java
+public class Parent{
+    private int id;
+    @OneToMany(manyColumn = "parentId")
+    private OneToManyLazyLoader<Parent ,Child> children;
+    /*....*/
+}
+public class Child{
+    private int id;
+    private String text;
+    @ManyToOne(column = "parentId")
+    private  Parent  parent;
+    /*....*/
+}
+```
+使用：
+```java
+List<Parent> all = db.findAll(Parent.class);
+        for( Parent  item : all){
+            if(item.getChildren ().getList().size()>0)
+                Toast.makeText(this,item.getText() + item.getChildren().getList().get(0).getText(),Toast.LENGTH_LONG).show();
+        }
+```
+----
 ##FinalActivity使用方法：
 * 完全注解方式就可以进行UI绑定和事件绑定
 * 无需findViewById和setClickListener等
@@ -66,6 +92,22 @@ public class AfinalDemoActivity extends FinalActivity {
        textView.setText("text set form button");
     }
 }
+```
+*在其他侵入式框架下使用（如ActionBarShelock）
+```java
+     protected void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+        setContentView(view);
+        FinalActivity.initInjectedView(this);
+     }
+```
+*在Fragment中使用
+```java
+     public View onCreateView(LayoutInflater inflater, ViewGroup container,
+          Bundle savedInstanceState) {
+       View viewRoot = inflater.inflate(R.layout.map_frame, container, false);
+       FinalActivity.initInjectedView(this,viewRoot);
+    }
 ```
 ##FinalHttp使用方法：
 ###普通get方法
@@ -194,10 +236,57 @@ public View getView(int position, View convertView, ViewGroup parent) {
 ```
 
 
+---
+**>>> Add by fantouch**
+
+#### 配置成Android Library Project
+*解决需求:有多个项目依赖afinal,并且想修改afinal源码*
+>  
+* clone到本地
+* 添加AndroidManifest.xml文件:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.tsz.afinal" >
+    <uses-sdk
+        android:minSdkVersion="5"
+        android:targetSdkVersion="7" />
+</manifest>
+```
+>  
+* 导入到 Eclipse:  
+`Import => Android => Existing Android Code Into Workspace`
+* 工程上按右键 => Properties => Android => √ Is Library
+* 完成,你的项目可以引用这个afinal Library了.
+
+#### 排除不需要Git管理的文件
+*解决需求:想修改源码,但不想让Eclipse把工程弄脏*
+>  
+* 忽略已经被Git管理的`./bin`目录:  
+导入Eclipse前执行:  ` git update-index --assume-unchanged ./bin/* `
+>  
+* 忽略未被Git管理的文件和目录: 添加`/.gitignore` 文件:  
+```
+/gen
+/assets
+/bin
+/res
+/.classpath
+/.project
+/AndroidManifest.xml
+/project.properties
+/.gitignore
+```  
+* 导入到Eclipse,`git status`可见Repository依旧干净.
+  
+**<<< Add by fantouch**
+
+---
 
 #关于作者michael
 * 个人博客：[http://www.yangfuhai.com](http://www.yangfuhai.com)
-* afinal捐助：[http://me.alipay.com/yangfuhai](http://me.alipay.com/yangfuhai) （为了感谢捐助者，michael将会把捐助者将公布在afinal官方网站[afinal.org](http://www.afinal.org)上,不让公布的同学说明下）
+* afinal捐助：[http://me.alipay.com/yangfuhai](http://me.alipay.com/yangfuhai) （为了感谢捐助者，michael将会把捐助者将公布在afinal官方网站上,不让公布的同学说明下）
 * afinal交流QQ群 ： 192341294
-
+#个人微信
+![mahua](http://7xi3g2.com1.z0.glb.clouddn.com/grwx.png?imageView2/1/w/250/h/250/q/87)
 

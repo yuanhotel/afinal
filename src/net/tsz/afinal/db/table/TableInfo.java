@@ -19,8 +19,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import net.tsz.afinal.exception.DbException;
-import net.tsz.afinal.reflect.ClassUtils;
-import net.tsz.afinal.reflect.FieldUtils;
+import net.tsz.afinal.utils.ClassUtils;
+import net.tsz.afinal.utils.FieldUtils;
 
 
 public class TableInfo {
@@ -64,7 +64,7 @@ public class TableInfo {
 				
 				tableInfo.setId(id);
 			}else{
-				throw new DbException("the class["+clazz+"]'s idField is null");
+				throw new DbException("the class["+clazz+"]'s idField is null , \n you can define _id,id property or use annotation @id to solution this exception");
 			}
 			
 			List<Property> pList = ClassUtils.getPropertyList(clazz);

@@ -13,38 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.tsz.afinal.db.table;
+package net.tsz.afinal.bitmap.core;
 
-import net.tsz.afinal.utils.FieldUtils;
+import android.graphics.Bitmap;
 
-public class KeyValue {
-	private String key;
-	private Object value;
+public interface IMemoryCache {
 	
-	public KeyValue(String key, Object value) {
-		this.key = key;
-		this.value = value;
-	}
-	
-	
-	public KeyValue() {}
+	public void put(String key,Bitmap bitmap);
+	public Bitmap get(String key);
+	public void evictAll();
+	public void remove(String key);
 
-
-	public String getKey() {
-		return key;
-	}
-	public void setKey(String key) {
-		this.key = key;
-	}
-	public Object getValue() {
-		if(value instanceof java.util.Date || value instanceof java.sql.Date){
-			return FieldUtils.SDF.format(value);
-		}
-		return value;
-	}
-	public void setValue(Object value) {
-		this.value = value;
-	}
-	
-	
 }
